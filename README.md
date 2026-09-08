@@ -30,7 +30,7 @@ que van apareciendo las prácticas.
 
 | Archivo | Qué falta | Práctica |
 |---|---|---|
-| `frontend/js/ui.js` | Pintar el estado del motor, las variables del proceso y las alarmas en pantalla | Práctica 2 |
+| `frontend/js/ui.js` | Pintar los paneles JSON, el estado del motor, las variables del proceso y las alarmas en pantalla | Práctica 2 |
 | `frontend/js/app.js` | Construir los comandos JSON de los botones y completar la Fase 3 (confirmación) | Práctica 3 |
 | `frontend/js/api.js` | Armar y enviar la solicitud `POST /api/device/command` | Práctica 3 |
 | `backend/src/middleware/validateCommand.js` | Toda la validación de comandos | Práctica 4 |

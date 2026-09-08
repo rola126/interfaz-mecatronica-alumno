@@ -8,12 +8,12 @@ documento da la vista completa del curso, para quien evalúa el proyecto de prin
 | Práctica | Actividades | Puntos por actividad | Subtotal |
 |---|---|---|---|
 | 1 — Comprender mensajes JSON | 4 | 10 | 40 |
-| 2 — Frontend leyendo estados | 4 | 10 | 40 |
+| 2 — Frontend leyendo estados | 5 | 10 | 50 |
 | 3 — API REST | 5 | 10 | 50 |
 | 4 — Validación | 5 | 10 | 50 |
 | 5 — Integración con ESP32 | 5 | 10 | 50 |
 | 6 — Fallas y diagnóstico | 5 × 10 + 1 × 20 (capstone) | — | 70 |
-| **Total del curso** | | | **300** |
+| **Total del curso** | | | **310** |
 
 ## Qué evidencia objetiva usar en cada práctica
 

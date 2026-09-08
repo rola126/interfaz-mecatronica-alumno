@@ -1,8 +1,9 @@
-# Actividad 1 — `running` → ENCENDIDO / DETENIDO
+# Actividad 1 — Mostrar el JSON enviado y recibido
 
 ## Objetivo
 
-Completar `renderMotor()` en `frontend/js/ui.js` para que el estado del motor se muestre en texto legible.
+Completar `showSentJson()` y `showReceivedJson()` en `frontend/js/ui.js` para que los paneles "JSON
+ENVIADO" y "JSON RECIBIDO" de la pantalla muestren de verdad lo que viaja entre el frontend y el backend.
 
 ## Requisitos previos
 
@@ -10,64 +11,74 @@ Práctica 1 completada.
 
 ## Contexto
 
-`state.running` llega como `true`, `false` o `null` (cuando no se sabe). El HTML ya trae los elementos
-`data-bind="motorStatusBadge"`, `data-bind="motorStateText"` y `data-bind="motorRing"` listos para recibir
-esos valores — solo falta la lógica en `ui.js` que decide qué texto y qué clase CSS poner en cada uno.
+Ahora mismo el backend ya funciona perfectamente — cada 2 segundos responde con el estado real del motor —
+pero la pantalla no lo muestra en ningún lado todavía: ni interpretado (eso es el resto de esta práctica) ni
+en crudo. Esta actividad va primero porque, una vez resuelta, el panel "JSON RECIBIDO" se convierte en tu
+propia herramienta de depuración para las actividades 2 a 5: vas a poder comparar, en la misma pantalla, lo
+que el backend dice contra lo que tu código pinta.
+
+`ui.js` ya trae escrita `highlightJson(valor)`, una función que convierte cualquier objeto a HTML con
+colores por tipo de dato (llaves, cadenas, números, booleanos, `null`) — no tienes que tocarla ni entender
+su regex por dentro, solo llamarla.
 
 ## Código de partida
 
-`frontend/js/ui.js`, función `renderMotor(state)` (vacía, con un comentario `TODO` arriba
-que detalla los elementos y clases disponibles).
+`frontend/js/ui.js`, funciones `showSentJson(command, endpoint)` y `showReceivedJson(response)` (vacías,
+con un comentario `TODO` arriba que detalla exactamente qué asignar a cada elemento).
 
 ## Pasos
 
-1. Abre `frontend/js/ui.js` y localiza `renderMotor()`.
-2. Complétala para que, cuando `state.connected` no sea `false`:
-   - `state.running === true` → badge "ENCENDIDO", clase `badge--running`, anillo con clase `is-running`.
-   - `state.running === false` → badge "DETENIDO", clase `badge--stopped`, sin `is-running`.
-3. Actualiza también `motorStateText`, `motorSpeedText` y `motorTempText` con los valores de `state.speed` y
-   `state.temperature`.
+1. Abre `ui.js` y localiza `showSentJson()`. Complétala para que:
+   - ponga `endpoint` en `els.sentEndpoint`;
+   - ponga el texto `"Solicitud pendiente…"` en `els.sentRequestId` (todavía no se sabe el ID: lo asigna el
+     backend en la respuesta, no el frontend);
+   - ponga `highlightJson(command)` como `innerHTML` de `els.sentJson`.
+2. Completa `showReceivedJson()` para que:
+   - arme el texto `Solicitud #<id>` (o `Solicitud #—` si no viene `transactionId`) y lo ponga en **ambos**
+     `els.sentRequestId` y `els.receivedRequestId`;
+   - ponga `highlightJson(response ?? {})` como `innerHTML` de `els.receivedJson`.
 
 ## Cómo probarlo
 
-```bash
-cd backend && npm start
-```
+No necesitas tener terminado el resto de `ui.js` para esta actividad. Con el backend corriendo
+(`cd backend && npm start`) y la página abierta:
 
-En otra terminal:
-
-```bash
-curl -X POST http://localhost:3000/api/device/command \
-  -H "Content-Type: application/json" \
-  -d '{"device":"motor1","action":"START","value":null}'
-```
-
-(Esto usa `curl` directamente porque los botones de la interfaz — Práctica 3 — todavía no envían nada.)
+1. Abre las herramientas de desarrollador del navegador (F12) → pestaña **Red/Network**.
+2. Recarga la página. El sondeo automático del frontend ya está haciendo `GET /api/device/status` cada 2
+   segundos, aunque `ui.js` todavía no lo pinte en ningún lado — vas a verlo pasar por la pestaña Red.
+3. Compara la respuesta que ves ahí contra lo que debería aparecer, una vez completes esto, en el panel
+   "JSON RECIBIDO" de la pantalla.
 
 ## Criterios de aceptación
 
-- [ ] Después del comando anterior, la pantalla muestra "ENCENDIDO" en menos de 2 segundos (sin recargar la
-      página).
-- [ ] El anillo del motor cambia de color/gira (según tu CSS) cuando está encendido.
-- [ ] Enviar el mismo comando con `"action":"STOP"` hace que la pantalla vuelva a mostrar "DETENIDO".
+- [ ] El panel "JSON RECIBIDO" muestra, con colores por tipo de dato, la última respuesta real del backend
+      (se actualiza solo cada 2 segundos, gracias al sondeo automático).
+- [ ] Al presionar cualquiera de los botones de control (aunque todavía no hagan nada, eso es la Práctica 3),
+      el panel "JSON ENVIADO" no es el objetivo de esta actividad — concéntrate primero en que "JSON
+      RECIBIDO" funcione con el sondeo automático.
+- [ ] "Solicitud #..." se actualiza con el `transactionId` real, no se queda en "Solicitud #—" cuando el
+      backend sí lo manda.
+- [ ] El JSON se ve resaltado por colores (llaves en un color, cadenas en otro, números en otro) — si se ve
+      todo del mismo color, revisa que estés usando `innerHTML` y no `textContent`.
 
 ## Preguntas de reflexión
 
-1. ¿Por qué `renderMotor()` recibe el objeto `state` completo en vez de recibir directamente
-   `state.running` como parámetro?
-2. ¿Qué otro archivo del frontend decide **cuándo** se llama a `renderMotor()`? (Pista: busca dónde se
-   suscribe `ui.applyState`.)
+1. ¿Por qué `showReceivedJson()` actualiza el `sentRequestId` además del `receivedRequestId`? ¿Qué pasaría
+   si solo actualizaras el segundo?
+2. Ahora que ves el JSON crudo en pantalla, compáralo con `shared/json/response-ok.json`. ¿Qué campos trae
+   la respuesta real que no estaban en ese ejemplo? (Pista: revisa `docs/protocolo-json.md`, sección
+   "Campos adicionales de `state`".)
 
 ## Entregable
 
-El archivo `ui.js` con `renderMotor()` completada (al menos la parte de `running`), más una captura de
-pantalla mostrando ENCENDIDO y otra mostrando DETENIDO.
+`ui.js` con `showSentJson()` y `showReceivedJson()` completas, más una captura de pantalla del panel "JSON
+RECIBIDO" mostrando datos reales y resaltado por colores.
 
 ## Rúbrica
 
 | Criterio | Puntos |
 |---|---|
-| ENCENDIDO/DETENIDO correctos con clases CSS correctas | 6 |
-| Velocidad y temperatura se muestran correctamente | 2 |
+| Panel "JSON RECIBIDO" muestra datos reales, actualizados por el sondeo | 5 |
+| "Solicitud #" se actualiza con el ID real | 3 |
 | Preguntas de reflexión | 2 |
 | **Total** | **10** |

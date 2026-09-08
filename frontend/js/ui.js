@@ -55,21 +55,50 @@ function highlightJson(value) {
    Paneles JSON
    ========================================================================== */
 
+/**
+ * ============================================================
+ * TODO (Práctica 2, Actividad 1 — exercises/practica-2-frontend-estados/):
+ * ============================================================
+ * Completa showSentJson() y showReceivedJson() para que los paneles
+ * "JSON ENVIADO" y "JSON RECIBIDO" de la pantalla realmente muestren el
+ * comando que se envía y la respuesta que llega — ahora mismo se quedan
+ * vacíos, aunque el backend ya está respondiendo correctamente.
+ *
+ * Ya tienes armado highlightJson(valor) (arriba), que convierte
+ * cualquier objeto a una cadena HTML con colores por tipo de dato —
+ * no necesitas tocarla, solo llamarla y poner el resultado en el
+ * elemento correcto.
+ *
+ * showSentJson(command, endpoint):
+ *   - els.sentEndpoint.textContent = endpoint
+ *   - els.sentRequestId.textContent = 'Solicitud pendiente…' (todavía no
+ *     se sabe el ID: lo asigna el backend en la respuesta, no el
+ *     frontend — mostrar "pendiente" es más honesto que inventar un número)
+ *   - els.sentJson.innerHTML = highlightJson(command)
+ *
+ * showReceivedJson(response):
+ *   - arma `const id = response && response.transactionId ?
+ *     `Solicitud #${response.transactionId}` : 'Solicitud #—';`
+ *   - ponlo en AMBOS els.sentRequestId y els.receivedRequestId (así el
+ *     panel "enviado" también se actualiza con el ID real una vez que
+ *     llega la respuesta)
+ *   - els.receivedJson.innerHTML = highlightJson(response ?? {})
+ *
+ * Cómo probarlo SIN el resto del frontend terminado: abre la pestaña
+ * Red/Network del navegador (F12), recarga la página — el sondeo
+ * automático ya está haciendo GET /api/device/status cada 2 segundos —
+ * y compara la respuesta real que ves ahí contra lo que debería
+ * aparecer en el panel "JSON RECIBIDO" una vez completes esto.
+ * ============================================================
+ */
 /** Pinta el comando recién construido en el panel "JSON ENVIADO". */
 export function showSentJson(command, endpoint) {
-  els.sentEndpoint.textContent = endpoint;
-  // Todavía no sabemos el transactionId: lo asigna el backend en la
-  // respuesta. Mostrar "pendiente" es más honesto que inventar un número.
-  els.sentRequestId.textContent = 'Solicitud pendiente…';
-  els.sentJson.innerHTML = highlightJson(command);
+  // TODO (Práctica 2, Actividad 1): implementa según la guía de arriba.
 }
 
 /** Pinta la respuesta en el panel "JSON RECIBIDO" y completa el ID de solicitud en ambos paneles. */
 export function showReceivedJson(response) {
-  const id = response && response.transactionId ? `Solicitud #${response.transactionId}` : 'Solicitud #—';
-  els.sentRequestId.textContent = id;
-  els.receivedRequestId.textContent = id;
-  els.receivedJson.innerHTML = highlightJson(response ?? {});
+  // TODO (Práctica 2, Actividad 1): implementa según la guía de arriba.
 }
 
 /* ==========================================================================

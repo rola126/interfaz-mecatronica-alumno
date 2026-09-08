@@ -2,8 +2,9 @@
 
 ## Objetivo
 
-Completar `frontend/js/ui.js` para que la interfaz traduzca correctamente el JSON que
-llega del backend a texto y colores en pantalla — sin construir todavía ningún comando (eso es la Práctica 3).
+Completar `frontend/js/ui.js` para que la interfaz muestre el JSON crudo que llega del
+backend y, sobre todo, para que lo traduzca correctamente a texto y colores en pantalla — sin construir
+todavía ningún comando (eso es la Práctica 3).
 
 ## Requisitos previos
 
@@ -11,13 +12,16 @@ Práctica 1 completada. Haber leído `shared/json/protocolo.md`.
 
 ## Contexto
 
-Con la plantilla del alumno, el backend **ya funciona completo**: puedes ver los datos reales llegando en el
-panel "JSON RECIBIDO" de la pantalla, y puedes forzar distintas condiciones con
-`POST /api/simulation/scenario` (ver `README.md`). Lo que falta es que `ui.js` sepa **pintar**
-esos datos — ahora mismo, la pantalla se queda en sus valores de arranque sin importar lo que diga el JSON recibido.
+Con la plantilla del alumno, el backend **ya funciona completo** — pero, a propósito, `ui.js` no muestra
+nada todavía: ni el JSON en crudo, ni el estado interpretado. Vas a resolver eso en dos pasos:
 
-Vas a completar tres funciones de `ui.js`: `renderMotor()`, `renderProcess()` y `renderAlarms()`. El propio
-archivo trae un comentario `TODO` extenso justo antes de esas funciones con todos los detalles.
+1. **Actividad 1** completa `showSentJson()`/`showReceivedJson()`, para que el panel "JSON RECIBIDO"
+   muestre lo que realmente llega del backend. Esa es la única ayuda "de fábrica" que vas a tener — a partir
+   de ahí, para todo lo demás, tú decides cómo averiguar qué trae cada respuesta (la pestaña Red del
+   navegador también sirve, incluso antes de la Actividad 1).
+2. **Actividades 2 a 5** completan `renderMotor()`, `renderProcess()` y `renderAlarms()` — la traducción de
+   ese JSON a texto/color en pantalla. El propio archivo trae un comentario `TODO` extenso justo antes de
+   esas funciones con todos los detalles.
 
 ## Cómo probar cada actividad
 
@@ -33,7 +37,8 @@ todavía, pero el sondeo automático de estado sí, y es suficiente para probar 
 
 | Actividad | Qué se practica |
 |---|---|
-| [Actividad 1](actividad-1.md) | `running` → ENCENDIDO / DETENIDO |
-| [Actividad 2](actividad-2.md) | `connected: false` → SIN COMUNICACIÓN |
-| [Actividad 3](actividad-3.md) | `severity: WARNING` → advertencia visible |
-| [Actividad 4](actividad-4.md) | `severity: CRITICAL` → alarma crítica visible |
+| [Actividad 1](actividad-1.md) | Mostrar el JSON enviado y recibido (tu herramienta de depuración para el resto de la práctica) |
+| [Actividad 2](actividad-2.md) | `running` → ENCENDIDO / DETENIDO |
+| [Actividad 3](actividad-3.md) | `connected: false` → SIN COMUNICACIÓN |
+| [Actividad 4](actividad-4.md) | `severity: WARNING` → advertencia visible |
+| [Actividad 5](actividad-5.md) | `severity: CRITICAL` → alarma crítica visible |

@@ -1,66 +1,74 @@
-# Actividad 2 — `connected: false` → SIN COMUNICACIÓN
+# Actividad 2 — `running` → ENCENDIDO / DETENIDO
 
 ## Objetivo
 
-Completar la rama de "desconectado" en `renderMotor()` y `renderProcess()`, para que ningún valor se
-muestre como si siguiera vigente cuando se perdió la comunicación.
+Completar `renderMotor()` en `frontend/js/ui.js` para que el estado del motor se muestre en texto legible.
 
 ## Requisitos previos
 
-Actividad 1 completada.
+Práctica 1 completada. Actividad 1 de esta práctica completada — vas a usar el panel "JSON RECIBIDO" que
+armaste ahí para confirmar visualmente que esta actividad quedó bien.
 
 ## Contexto
 
-Esta es la parte más importante de toda la práctica: la "Regla fundamental de la interfaz" (README del
-proyecto, sección 23) dice que la interfaz debe representar el estado **confirmado**, nunca inventar uno.
-Cuando `state.connected === false`, el backend ya reporta `running`, `speed` y `temperature` como `null`
-(ver `shared/json/response-error.json`) — el trabajo de `ui.js` es mostrar eso como `"—"`, no como el último
-valor que sí conocía.
+`state.running` llega como `true`, `false` o `null` (cuando no se sabe). El HTML ya trae los elementos
+`data-bind="motorStatusBadge"`, `data-bind="motorStateText"` y `data-bind="motorRing"` listos para recibir
+esos valores — solo falta la lógica en `ui.js` que decide qué texto y qué clase CSS poner en cada uno.
 
 ## Código de partida
 
-`renderMotor()` y `renderProcess()` en `ui.js` (misma función que empezaste en la Actividad 1).
+`frontend/js/ui.js`, función `renderMotor(state)` (vacía, con un comentario `TODO` arriba
+que detalla los elementos y clases disponibles).
 
 ## Pasos
 
-1. En `renderMotor()`, agrega el caso `disconnected = state.connected === false`:
-   - badge "DESCONOCIDO", clase `badge--unknown`.
-   - `motorStateText` = "ESTADO DESCONOCIDO".
-   - `motorSpeedText`/`motorTempText` = `"—"` / `"— °C"`.
-   - `motorCommText` = "SIN COMUNICACIÓN" (si está conectado, "OK").
-2. En `renderProcess()`, aplica el mismo criterio a velocidad, temperatura, ADC, relevador y pulsadores.
+1. Abre `frontend/js/ui.js` y localiza `renderMotor()`.
+2. Complétala para que, cuando `state.connected` no sea `false`:
+   - `state.running === true` → badge "ENCENDIDO", clase `badge--running`, anillo con clase `is-running`.
+   - `state.running === false` → badge "DETENIDO", clase `badge--stopped`, sin `is-running`.
+3. Actualiza también `motorStateText`, `motorSpeedText` y `motorTempText` con los valores de `state.speed` y
+   `state.temperature`.
 
 ## Cómo probarlo
 
 ```bash
-curl -X POST http://localhost:3000/api/simulation/scenario \
-  -H "Content-Type: application/json" -d '{"scenario":"COMM_LOST"}'
+cd backend && npm start
 ```
+
+En otra terminal:
+
+```bash
+curl -X POST http://localhost:3000/api/device/command \
+  -H "Content-Type: application/json" \
+  -d '{"device":"motor1","action":"START","value":null}'
+```
+
+(Esto usa `curl` directamente porque los botones de la interfaz — Práctica 3 — todavía no envían nada.)
 
 ## Criterios de aceptación
 
-- [ ] Con el escenario `COMM_LOST` forzado, la pantalla muestra "SIN COMUNICACIÓN" y "DESCONOCIDO" en menos
-      de 2 segundos.
-- [ ] Ningún campo numérico (velocidad, temperatura, ADC) muestra el último valor que tenía antes de perder
-      la comunicación: todos pasan a `"—"`.
-- [ ] Al volver a `{"scenario":"NORMAL"}`, la pantalla se recupera sola.
+- [ ] Después del comando anterior, la pantalla muestra "ENCENDIDO" en menos de 2 segundos (sin recargar la
+      página).
+- [ ] El anillo del motor cambia de color/gira (según tu CSS) cuando está encendido.
+- [ ] Enviar el mismo comando con `"action":"STOP"` hace que la pantalla vuelva a mostrar "DETENIDO".
 
 ## Preguntas de reflexión
 
-1. ¿Por qué sería incorrecto que, al perder la comunicación, `ui.js` simplemente dejara de actualizar la
-   pantalla (en vez de mostrar "—")? ¿Qué información falsa le estaría dando al operador?
-2. `state.connected` puede ser `null` (aún no se sabe) o `false` (se sabe que está desconectado). ¿Debería
-   tu código tratarlos igual? Revisa cómo lo hace `renderHeader()`, que ya está resuelta.
+1. ¿Por qué `renderMotor()` recibe el objeto `state` completo en vez de recibir directamente
+   `state.running` como parámetro?
+2. ¿Qué otro archivo del frontend decide **cuándo** se llama a `renderMotor()`? (Pista: busca dónde se
+   suscribe `ui.applyState`.)
 
 ## Entregable
 
-`ui.js` actualizado, más una captura de pantalla del estado "SIN COMUNICACIÓN".
+El archivo `ui.js` con `renderMotor()` completada (al menos la parte de `running`), más una captura de
+pantalla mostrando ENCENDIDO y otra mostrando DETENIDO.
 
 ## Rúbrica
 
 | Criterio | Puntos |
 |---|---|
-| Ningún valor "fantasma" se muestra al desconectar | 6 |
-| Se recupera correctamente al reconectar | 2 |
+| ENCENDIDO/DETENIDO correctos con clases CSS correctas | 6 |
+| Velocidad y temperatura se muestran correctamente | 2 |
 | Preguntas de reflexión | 2 |
 | **Total** | **10** |

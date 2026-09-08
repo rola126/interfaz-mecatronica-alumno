@@ -94,8 +94,10 @@ completar `sendCommand()`, que es literalmente "armar y enviar el JSON" del coma
 La única capa que toca `document.*`. Cachea los elementos marcados con `data-bind`/`data-flow` una sola vez
 al cargar, y expone funciones puras como `applyState(state)` (redibuja toda la pantalla),
 `activateFlowStep(nombre, clase)` (resalta un paso de la franja de flujo) y `highlightJson(valor)` (el
-resaltador de sintaxis JSON escrito a mano, sin librerías). **Práctica 2:** completar `renderMotor()`,
-`renderProcess()` y `renderAlarms()` — la traducción de JSON a texto/color en pantalla.
+resaltador de sintaxis JSON escrito a mano, sin librerías — esta sí viene ya resuelta). **Práctica 2:**
+completar `showSentJson()`/`showReceivedJson()` (Actividad 1 — pintar los paneles JSON enviado/recibido) y
+`renderMotor()`, `renderProcess()`, `renderAlarms()` (Actividades 2-5 — la traducción de ese JSON a
+texto/color en pantalla).
 
 ### `js/app.js`
 
