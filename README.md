@@ -91,10 +91,12 @@ Para el frontend no hay tests automáticos: cada `.md` de actividad en `exercise
 
 ## Cómo entregas tus avances
 
-Si tu profesor te asignó este repositorio por **GitHub Classroom**, cada `git push` a tu copia queda
-registrado y, si hay autocalificación configurada, `npm test` corre automáticamente y se refleja en el
-tablero del profesor — no necesitas avisar por separado. Haz commits frecuentes conforme avances en cada
-práctica, con mensajes breves que digan qué completaste (por ejemplo: `Practica 2: completar renderMotor`).
+Cada `git push` a tu copia de este repositorio dispara automáticamente tres checks (pestaña **Actions**, y
+como ✓/✗ junto a cada commit): **Contrato de respuesta**, **Validación (Práctica 4)** y **Alarmas y fallas
+(Práctica 2/6)**. No necesitas correr nada a mano para que se vean — corren solos en GitHub. Haz commits
+frecuentes conforme avances en cada práctica, con mensajes breves que digan qué completaste (por ejemplo:
+`Practica 2: completar renderMotor`), y comparte el link de tu repositorio con tu profesor cuando te lo
+pida.
 
 ## Si te atoras
 
